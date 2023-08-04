@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Clean YouTube Player",
+  "version": "1.0",
+  "description": "Remove clutter on YouTube video player",
+  "content_scripts": [
+    {
+      "js": ["scripts/content.js"],
+      "matches": [
+        "https://www.youtube.com/watch*"
+      ]
+    }
+  ]
+}
