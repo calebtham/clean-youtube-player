@@ -1,2 +1,22 @@
-const profilePic = document.querySelector("#movie_player > div.ytp-player-content.ytp-iv-player-content > div");
-profilePic.remove();
+function waitForElementByQuery(selector) {
+    return new Promise(resolve => {
+        if (document.querySelector(selector)) {
+            return resolve(document.querySelector(selector));
+        }
+
+        const observer = new MutationObserver(mutations => {
+            if (document.querySelector(selector)) {
+                resolve(document.querySelector(selector));
+                observer.disconnect();
+            }
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    });
+}
+
+waitForElementByQuery("#movie_player > div.ytp-player-content.ytp-iv-player-content > div")
+    .then(profilePic => profilePic.remove());
