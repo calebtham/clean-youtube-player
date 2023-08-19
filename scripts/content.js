@@ -1,12 +1,20 @@
-const waitForElementByQuery = (selector) => {
+const main = () => {
+  waitForElementsByClassName("annotation").then((elements) => {
+    Array.from(elements).forEach((element) => {
+      element.remove();
+    });
+  });
+};
+
+const waitForElementsByClassName = (className) => {
   return new Promise((resolve) => {
-    if (document.querySelector(selector)) {
-      return resolve(document.querySelector(selector));
+    if (document.getElementsByClassName(className).length > 0) {
+      return resolve(document.getElementsByClassName(className));
     }
 
     const observer = new MutationObserver(() => {
-      if (document.querySelector(selector)) {
-        resolve(document.querySelector(selector));
+      if (document.getElementsByClassName(className).length > 0) {
+        resolve(document.getElementsByClassName(className));
         observer.disconnect();
       }
     });
@@ -18,7 +26,7 @@ const waitForElementByQuery = (selector) => {
   });
 };
 
-const observeUrlChange = () => {
+window.onload = () => {
   let oldHref = document.location.href;
   const body = document.querySelector("body");
   const observer = new MutationObserver(() => {
@@ -29,13 +37,5 @@ const observeUrlChange = () => {
   });
   observer.observe(body, { childList: true, subtree: true });
 };
-
-const main = () => {
-  waitForElementByQuery(
-    "#movie_player > div.ytp-player-content.ytp-iv-player-content > div"
-  ).then((profilePic) => profilePic.remove());
-};
-
-window.onload = observeUrlChange;
 
 main();
